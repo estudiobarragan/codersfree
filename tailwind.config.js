@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-    mode: 'jit',
+    mode: '',
     purge: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './vendor/laravel/jetstream/**/*.blade.php',
@@ -15,6 +15,11 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
         },
+    },
+    
+    corePlugins: {
+      // ...
+     container: false,
     },
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],

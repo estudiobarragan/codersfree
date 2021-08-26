@@ -1,6 +1,6 @@
 <div>
   {{-- Barra de navegación --}}
-  <div class="bg-gray-500 py-4 mb-2 mt-2">
+  <div class="bg-gray-700 py-4 mb-4 mt-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex">
       <button class="focus:outline-none bg-white shadow h-12 px-4 rounded-lg text-gray-700 mr-4" wire:click="resetFilters">
         <i class="fas fa-archway text-xs mr-2"></i>

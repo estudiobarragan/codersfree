@@ -113,7 +113,18 @@
               <a class="text-blue-400 text-sm font-bold item-center" href="">{{'@'.Str::slug($course->teacher->name, '')}}</a>
             </div>
           </div>
-          <a href="" class="btn btn-danger btn-block mt-4">Llevar este curso</a>
+          
+          @can('enrolled', $course )
+            <a  class="btn btn-danger btn-block mt-4" href="{{route('courses.status', $course )}}">Continuar con el curso</a>
+          @else
+            <form action="{{route('courses.enrolled', $course)}}" method="post">
+              @csrf
+              <button  class="btn btn-danger btn-block mt-4" type="submit">
+                Llevar este curso
+              </button>
+            </form>            
+
+          @endcan
 
         </div>
       </section>

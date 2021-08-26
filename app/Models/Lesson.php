@@ -14,9 +14,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
+  use HasFactory;
+
   protected $guarded = ['id'];
 
-  use HasFactory;
+  public function getCompletedAttribute()
+  {
+    return $this->users->contains(auth()->user()->id);
+  }
 
   // Relacion 1-1
   public function description()

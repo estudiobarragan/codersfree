@@ -13,6 +13,7 @@ class CourseController extends Controller
   }
   public function show(Course $course)
   {
+    $this->authorize('published', $course);
     $states = ['Borrador', 'Revision', 'Publicado'];
 
     $similares = Course::where('category_id', $course->category_id)

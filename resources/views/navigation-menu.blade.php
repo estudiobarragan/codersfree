@@ -117,9 +117,21 @@
                             </div>
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
+                                {{ __('Perfil') }}
                             </x-jet-dropdown-link>
 
+                            @can('Leer cursos')
+                              <x-jet-dropdown-link href="{{ route('instructor.courses.index') }}">
+                                {{ __('Instructor') }}
+                              </x-jet-dropdown-link>
+                            @endcan
+
+                            @can('Ver dashboard')
+                              <x-jet-dropdown-link href="{{ route('admin.home') }}">
+                                {{ __('Administrador') }}
+                              </x-jet-dropdown-link>
+                            @endcan
+                            
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
                                     {{ __('API Tokens') }}
@@ -192,8 +204,20 @@
               <div class="mt-3 space-y-1">
                   <!-- Account Management -->
                   <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                      {{ __('Profile') }}
+                      {{ __('Perfil') }}
                   </x-jet-responsive-nav-link>
+
+                  @can('Leer cursos')
+                    <x-jet-responsive-nav-link href="{{ route('instructor.courses.index') }}" :active="request()->routeIs('instructor.courses.index')">
+                      {{ __('Instructor') }}
+                    </x-jet-responsive-nav-link>
+                  @endcan
+
+                  @can('Ver dashboard')
+                    <x-jet-responsive-nav-link href="{{ route('admin.home') }}" :active="request()->routeIs('admin.home')">
+                      {{ __('Administrador') }}
+                    </x-jet-responsive-nav-link>
+                  @endcan
 
                   @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                       <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">

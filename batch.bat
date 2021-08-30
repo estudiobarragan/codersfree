@@ -3,4 +3,4 @@ git add .
 git commit -m %1
 git tag -a %2 -m %1
 git push origin main
-git push %2
+git push origin %2

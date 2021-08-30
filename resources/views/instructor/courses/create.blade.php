@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-instructor-layout>
   <div class="container py-8">
     <div class="card">
       <div class="card-body">
@@ -27,4 +27,4 @@
     <script src="{{ asset('js/instructor/courses/form.js') }}"></script>
       
   </x-slot>
-</x-app-layout>
+</x-instructor-layout>

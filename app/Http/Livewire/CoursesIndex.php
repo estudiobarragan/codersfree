@@ -8,7 +8,7 @@ use App\Models\Level;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CourseIndex extends Component
+class CoursesIndex extends Component
 {
   use WithPagination;
 
@@ -28,7 +28,7 @@ class CourseIndex extends Component
     $levels = Level::all();
     $states = ['Borrador', 'Revision', 'Publicado'];
 
-    return view('livewire.course-index', compact('courses', 'categories', 'levels', 'states'));
+    return view('livewire.courses-index', compact('courses', 'categories', 'levels', 'states'));
   }
 
   public function resetFilters()

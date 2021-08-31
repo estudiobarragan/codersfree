@@ -12,7 +12,7 @@
         <p class="mb-2"><i class="fas fa-"></i> Categoria: {{$course->category->name}}</p>
         <p class="mb-2"><i class="fas fa-users"></i> Matriculados: {{$course->students_count}}</p>
         <p class="mb-2"><i class="fas fa-star"></i> Calificación: {{$course->rating}}</p>
-        <p><i class="fas fa-cogs text-sm mr-2"></i> Estado: {{$states[$course->status-1]}}</p>
+        <p><i class="fas fa-cogs text-sm mr-2"></i> Estado: Publicado</p>
         
       </div>
 

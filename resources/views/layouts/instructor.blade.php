@@ -39,11 +39,13 @@
                               @routeIs('instructor.courses.curriculum', $course) border-indigo-400 @else border-transparent @endif ">
                     <a href="{{route('instructor.courses.curriculum',$course)}}">Lecciones del curso</a>
                   </li>
-                  <li class="leading-7 mb-1 border-l-4 pl-2 border-transparent">
-                    <a href="">Metas del curso</a>
+                  <li class="leading-7 mb-1 border-l-4 pl-2
+                              @routeIs('instructor.courses.goals', $course) border-indigo-400 @else border-transparent @endif ">
+                    <a href="{{route('instructor.courses.goals',$course)}}">Metas del curso</a>
                   </li>
-                  <li class="leading-7 mb-1 border-l-4 pl-2 border-transparent">
-                    <a href="">Esudiantes</a>
+                  <li class="leading-7 mb-1 border-l-4 pl-2 
+                              @routeIs('instructor.courses.students', $course) border-indigo-400 @else border-transparent @endif">
+                    <a href="{{route('instructor.courses.students',$course)}}">Esudiantes</a>
                   </li>
                 </ul>
               </aside>

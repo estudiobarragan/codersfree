@@ -18,7 +18,8 @@ class CoursesIndex extends Component
 
   public function render()
   {
-    $courses = Course::status($this->state_id)
+    $state_id = 3;
+    $courses = Course::status(3)
       ->category($this->category_id)
       ->level($this->level_id)
       ->latest('id')
@@ -26,7 +27,7 @@ class CoursesIndex extends Component
 
     $categories = Category::all();
     $levels = Level::all();
-    $states = ['Borrador', 'Revision', 'Publicado'];
+    $states = ['Publicado'];
 
     return view('livewire.courses-index', compact('courses', 'categories', 'levels', 'states'));
   }

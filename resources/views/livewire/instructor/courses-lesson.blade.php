@@ -44,16 +44,16 @@
 
         @else
           
-          <div x-data="{nOpen: false}">
+          <div x-data="{open: false}">
 
             <header>
-              <h1 x-on:click="nOpen = !nOpen" class="cursor-pointer">
+              <h1 x-on:click="open = !open" class="cursor-pointer">
                 <i class="far fa-play-circle text-blue-500 mr-1"></i>
                 Lección: {{$item->name}}
               </h1>
             </header>
 
-            <div x-show="nOpen">
+            <div x-show="open">
               <hr class="my-2">
               <p class="text-sm ml-6">Platarforma: {{$item->platform->name}}</p>
               <p class="text-sm ml-6">Enlace: <a class="text-blue-600" href="{{$item->url}}" target="_blank">{{$item->url}}</a></p>
@@ -63,8 +63,12 @@
                 <button class="btn btn-danger text-sm" wire:click="destroy({{$item}})">Eliminar</button>
               </div>
 
+              <div class="mb-4">
+                @livewire('instructor.lesson-description',['lesson' => $item], key('lesson-description'.$item->id))
+              </div>
+
               <div>
-                @livewire('instructor.lesson-description',['lesson' => $item], key($item->id))
+                @livewire('instructor.lesson-resources',['lesson' => $item], key('lesson-resources'.$item->id))
               </div>
 
             </div>

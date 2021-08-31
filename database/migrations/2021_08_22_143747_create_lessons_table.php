@@ -20,10 +20,9 @@ class CreateLessonsTable extends Migration
       $table->text('iframe');
 
       $table->unsignedBigInteger('platform_id')->nullable();
-      $table->unsignedBigInteger('section_id')->nullable();
-
+      $table->unsignedBigInteger('section_id');
       $table->foreign('platform_id')->references('id')->on('platforms')->onDelete('set null');
-      $table->foreign('section_id')->references('id')->on('sections')->onDelete('set null');
+      $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
 
       $table->timestamps();
     });

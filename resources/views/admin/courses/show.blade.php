@@ -2,7 +2,11 @@
   <section class="bg-gray-700 mb-4 shadow-xl">
     <div class="container grid grid-cols-1 lg:grid-cols-2 gap-6">
       <figure class=" py-12">
-        <img class="h-64 w-full object-cover" src="{{Storage::url($course->image->url)}}" alt="">
+        @isset($course->image)
+          <img class="h-64 w-full object-cover" src="{{Storage::url($course->image->url)}}" alt="">
+        @else
+          <img class="h-64 w-full object-cover" src="{{asset('img/cursos/default-cursos.jpg')}}" alt="">
+        @endisset
       </figure>
       <div class="text-white py-10">
         <h1 class="text-4xl">{{$course->title}}</h1>
@@ -23,13 +27,25 @@
     <div class="card-body">
       <h1 class="font-bold text-3xl">Descripción</h1>
       <div class="text-gray-700 text-base">
-        {!!$course->description!!}
+        {!! $course->description !!}
       </div>
     </div>
   </section>
 
   {{-- armado de 3 columnas --}}
   <div class="container grid grid-cols-1 lg:grid-cols-3 gap-6">
+    {{-- aviso de seccion --}}
+    @if(session('info'))
+      <div class="lg:col-span-3" x-data="{open: true}" x-show="open">
+        <div class="relative py-3 pl-4 pr-10 leading-normal text-red-700 bg-red-100 rounded-lg" role="alert">
+          <p><strong>¡¡ Ocurrió un error !!</strong> {{session('info')}}</p>
+          <span class="absolute inset-y-0 right-0 flex items-center mr-4">
+            <svg x-on:click="open=false" class="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20"><path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+          </span>
+        </div>
+      </div>
+    @endif
+
     {{-- 2primeras columnas --}}
     <div class="order-2 lg:col-span-2 lg:order-1">
 
@@ -43,21 +59,36 @@
                 <i class="far fa-list-alt mr-2"></i>
                 Lo que aprenderas
               </h1>
-              @foreach($course->goals as $goal)
-                <li class="text-gray-700 text-sm"><i class="fas fa-check text-green-600 mr-2"></i>{{$goal->name}}</li>
-              @endforeach
+
+              @forelse($course->goals as $goal)
+                <li class="text-gray-700 text-sm">
+                  <i class="fas fa-check text-green-600 mr-2">
+                    </i>{{$goal->name}}
+                  </li>
+              @empty
+                <li class="text-gray-700 text-sm">
+                  <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                  Aún no se han definido metas.
+                </li>
+              @endforelse
+
             </div>
             <div>
               <h1 class="font-bold text-2xl mb-2">
                 <i class="fas fa-glasses mr-2"></i>
                 Conocimientos previos
               </h1>
-              @foreach($course->requirements as $requirement)
+              @forelse($course->requirements as $requirement)
                 <li class="text-gray-700 text-sm">
                   <i class="fas fa-check text-green-600 mr-2"></i>
                   {{$requirement->name}}
                 </li>
-              @endforeach
+              @empty
+                <li class="text-gray-700 text-sm">
+                  <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                  Aún no se han definido conocimientos previos.
+                </li>
+              @endforelse
             </div>
           </ul>
         </div>
@@ -66,7 +97,7 @@
       {{-- Temario --}}
       <section>
         <h1 class="font-bold text-3xl mb-2">Temario</h1>
-        @foreach($course->sections as $section)
+        @forelse($course->sections as $section)
           <article class="mb-4 shadow"
           @if($loop->first)
             x-data="{open: true }">
@@ -91,7 +122,15 @@
 
             </div>
           </article>
-        @endforeach
+        @empty
+          <article class="card">
+            <div class="card-body">
+              <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+              No se ha definido aún el temario de este curso.
+
+            </div>
+          </article>          
+        @endforelse
       </section>
 
 
@@ -114,24 +153,21 @@
             </div>
           </div>
           
-          @can('enrolled', $course )
-            <a  class="btn btn-danger btn-block mt-4" href="{{route('courses.status', $course )}}">Continuar con el curso</a>
-          @else
-            <form action="{{route('courses.enrolled', $course)}}" method="post">
-              @csrf
-              <button  class="btn btn-danger btn-block mt-4" type="submit">
-                Llevar este curso
-              </button>
-            </form>            
 
-          @endcan
+          <form action="{{route('admin.courses.approved', $course)}}" method="post">
+            @csrf
+            <button  class="btn btn-danger btn-block mt-4" type="submit">
+              Aprobar publicación del curso
+            </button>
+          </form>            
+
 
         </div>
       </section>
 
       {{-- Cursos similares --}}
       <aside class="hidden lg:block">
-        @foreach($similares as $similar)
+        {{-- @foreach($similares as $similar)
           <article class="flex mb-6">
             <img class="h-32 w-40 object-cover" src="{{Storage::url($similar->image->url)}}" alt="">
             
@@ -155,7 +191,7 @@
             </div>
 
           </article>
-        @endforeach
+        @endforeach --}}
       </aside>
 
     </div>

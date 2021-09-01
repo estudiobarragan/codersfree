@@ -9,12 +9,15 @@ use App\Models\Level;
 use App\Models\Price;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Livewire\WithPagination;
 
 class CourseController extends Controller
 {
+  use WithPagination;
 
   public function __construct()
   {
+
     $this->middleware('can:Leer cursos')->only('index');
     $this->middleware('can:Crear cursos')->only('create', 'store');
     $this->middleware('can:Actualizar cursos')->only('edit', 'update', 'goals');
@@ -69,6 +72,13 @@ class CourseController extends Controller
 
     if ($request->file('file')) {
       $url = Storage::put('courses', $request->file('file'));
+
+      $course->image()->create([
+        'url' => $url,
+      ]);
+    } else {
+
+      $url = Storage::put('courses', asset('img\cursos\default-cursos.jpg'));
 
       $course->image()->create([
         'url' => $url,
@@ -164,5 +174,14 @@ class CourseController extends Controller
   {
     $this->authorize('dictated', $course);
     return view('instructor.courses.goals', compact('course'));
+  }
+
+  public function status(Course $course)
+  {
+
+    $course->status = 2;
+    $course->save();
+
+    return back();
   }
 }

@@ -8,6 +8,7 @@ use App\Models\Goal;
 use App\Models\Image;
 use App\Models\Lesson;
 use App\Models\Level;
+use App\Models\Observation;
 use App\Models\Price;
 use App\Models\Requirement;
 use App\Models\Review;
@@ -59,6 +60,12 @@ class Course extends Model
   public function getRouteKeyName()
   {
     return "slug";
+  }
+
+  // Relacion 1 a 1
+  public function observation()
+  {
+    return $this->hasOne(Observation::class);
   }
 
   // Relacion 1 a muchos

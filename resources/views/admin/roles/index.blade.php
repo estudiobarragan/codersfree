@@ -19,7 +19,7 @@
 
       <div class="card-header text-right">
         <a class="text-success" href="{{ route( 'admin.roles.create' ) }}">
-          <div><i class="fas fa-plus fa-3x"></i></div>
+          <div><i class="fas fa-plus fa-2x"></i></div>
           Crear
         </a>
       </div>
@@ -40,9 +40,8 @@
                 <td>{{$role->name}}</td>
 
                 <td width="10px">
-                  <a class="" class="btn btn-secondary" href="{{route('admin.roles.edit', $role)}}">
-                    <i class="fas fa-edit fa-2x"></i>
-                    
+                  <a class="btn btn-primary  btn-sm" href="{{route('admin.roles.edit', $role)}}">
+                    <i class="fas fa-edit"></i>                    
                   </a>
                 </td>
 
@@ -50,9 +49,8 @@
                   <form action="{{ route( 'admin.roles.destroy',$role ) }}" method="POST">
                     @method('delete')
                     @csrf
-                    <button class="btn btn-danger" type="submit" >
-                      <i class="far fa-trash-alt"></i>
-                      
+                    <button class="btn btn-danger  btn-sm" type="submit" >
+                      <i class="far fa-trash-alt"></i>                      
                     </button>
                   </form>
                 </td>

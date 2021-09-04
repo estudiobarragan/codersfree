@@ -1,11 +1,12 @@
 @props(['course'])
 
 
-<article class="card">
+<article class="card flex flex-col">
   <img class="h-36 w-full object-cover" src="{{ Storage::url($course->image->url) }}">
-  <div class="card-body">
+
+  <div class="card-body flex-1 flex flex-col">
     <h1 class="card-title">{{Str::limit($course->title,40)}}</h1>
-    <p class="text-gray-500 text-sm mb-2">Prof: {{$course->teacher->name}}</p>
+    <p class="text-gray-500 text-sm mb-2 mt-auto">Prof: {{$course->teacher->name}}</p>
 
     <div class="flex">
       <ul class="flex text-sm">
@@ -30,9 +31,14 @@
         ({{$course->students_count}})
       </p>
     </div>
+    @if($course->price->value==0)
+      <p class="my-2 text-red-600  italic  font-bold text-center">¡ GRATIS !</p>
+    @else  
+      <p class="my-2 text-gray-500 font-bold text-center">u$s {{$course->price->value}}</p>
+    @endif
     <!-- component -->
     <a href={{route('courses.show',$course)}} 
-      class="mt-4 btn btn-primary btn-block">
+      class=" btn btn-primary btn-block">
         Mas información
     </a>
 

@@ -21,7 +21,7 @@
   {{-- Descripci{on del curso} --}}
   <section class="card mb-6 shadow-xl">
     <div class="card-body">
-      <h1 class="font-bold text-3xl">Descripción</h1>
+      <h1 class="font-bold text-3xl text-gray-800">Descripción</h1>
       <div class="text-gray-700 text-base">
         {!!$course->description!!}
       </div>
@@ -38,7 +38,7 @@
         <div class="card-body">
           
           <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap--y-2">
-            <div class="mb-6">
+            <div class="mb-6 text-gray-800">
               <h1 class="font-bold text-2xl mb-2">
                 <i class="far fa-list-alt mr-2"></i>
                 Lo que aprenderas
@@ -47,7 +47,7 @@
                 <li class="text-gray-700 text-sm"><i class="fas fa-check text-green-600 mr-2"></i>{{$goal->name}}</li>
               @endforeach
             </div>
-            <div>
+            <div class="text-gray-800">
               <h1 class="font-bold text-2xl mb-2">
                 <i class="fas fa-glasses mr-2"></i>
                 Conocimientos previos
@@ -65,7 +65,7 @@
 
       {{-- Temario --}}
       <section>
-        <h1 class="font-bold text-3xl mb-2">Temario</h1>
+        <h1 class="font-bold text-3xl mb-2 text-gray-800">Temario</h1>
         @foreach($course->sections as $section)
           <article class="mb-4 shadow"
           @if($loop->first)
@@ -94,6 +94,8 @@
         @endforeach
       </section>
 
+      {{-- Review --}}
+      @livewire('courses-reviews',['course'=> $course])
 
     </div>
 

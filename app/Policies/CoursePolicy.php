@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Course;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -49,6 +50,15 @@ class CoursePolicy
       return true;
     } else {
       return false;
+    }
+  }
+
+  public function valued(User $user, Course $course)
+  {
+    if (Review::where('user_id', $user->id)->where('course_id', $course->id)->count()) {
+      return false;
+    } else {
+      return true;
     }
   }
 }

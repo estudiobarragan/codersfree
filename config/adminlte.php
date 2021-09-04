@@ -282,12 +282,12 @@ return [
       'route'  => 'admin.prices.index',
       'icon' => 'fab fa-fw fa-cc-visa',
     ],
-    /* [
+    [
       'text' => 'Pendientes aprobación',
       'route'  => 'admin.courses.index',
       'icon' => 'fas fa-fw fa-user',
     ],
-    [
+    /* [
       'text' => 'change_password',
       'url'  => 'admin/settings',
       'icon' => 'fas fa-fw fa-lock',

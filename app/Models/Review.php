@@ -14,7 +14,7 @@ class Review extends Model
   use HasFactory;
 
   // Relacion uno a muchos inversa
-  public function users()
+  public function user()
   {
     return $this->belongsTo(User::class);
   }

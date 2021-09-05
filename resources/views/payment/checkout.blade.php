@@ -1,4 +1,14 @@
 <x-app-layout>
+  
+  @if(session('failed'))
+    <div class="card max-w-4xl mx-auto mt-8 text-center">
+      <div class="card-body  bg-red-100 w-full">
+        <div class="alert alert-danger bg-red-600 text-white"  role="alert">
+          <strong><i class="far fa-frown"></i> Lo lamentamos!</strong> {{ session('failed') }}
+        </div>
+      </div>
+    </div>
+  @endif
 
   <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 py-12">
     <h1 class="text-gray-500 text-3xl font-bold">Detalle del pedido</h1>

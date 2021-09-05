@@ -3,12 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use PayPal\Api\Amount;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Exception\PayPalConnectionException;
+use PayPal\Rest\ApiContext;
+use PhpParser\Node\Stmt\TryCatch;
 
 /* require __DIR__  . '/vendor/autoload.php'; */
 
 class PaymentController extends Controller
 {
+  private $apiContext;
+
+  public function __construct()
+  {
+
+    // After Step 1
+    $this->apiContext = new ApiContext(
+      new \PayPal\Auth\OAuthTokenCredential(
+        config('paypal.paypal.client_id'),     // ClientID
+        config('paypal.paypal.client_secret')      // ClientSecret
+      )
+    );
+  }
+
   public function checkout(Course $course)
   {
     return view('payment.checkout', compact('course'));
@@ -16,31 +42,23 @@ class PaymentController extends Controller
   public function pay(Course $course)
   {
 
-
-    // After Step 1
-    $apiContext = new \PayPal\Rest\ApiContext(
-      new \PayPal\Auth\OAuthTokenCredential(
-        config('services.paypal.client_id'),     // ClientID
-        config('services.paypal.client_secret')      // ClientSecret
-      )
-    );
-
     // After Step 2
-    $payer = new \PayPal\Api\Payer();
+    $payer = new Payer();
     $payer->setPaymentMethod('paypal');
 
-    $amount = new \PayPal\Api\Amount();
+    $amount = new Amount();
     $amount->setTotal($course->price->value);
     $amount->setCurrency('USD');
 
-    $transaction = new \PayPal\Api\Transaction();
+    $transaction = new Transaction();
     $transaction->setAmount($amount);
+    // $transaction->setDescription('Estas por comprar el curso: ' . $course->title);
 
-    $redirectUrls = new \PayPal\Api\RedirectUrls();
+    $redirectUrls = new RedirectUrls();
     $redirectUrls->setReturnUrl(route('payment.approved', $course))
       ->setCancelUrl(route('payment.checkout', $course));
 
-    $payment = new \PayPal\Api\Payment();
+    $payment = new Payment();
     $payment->setIntent('sale')
       ->setPayer($payer)
       ->setTransactions(array($transaction))
@@ -48,9 +66,10 @@ class PaymentController extends Controller
 
     // After Step 3
     try {
-      $payment->create($apiContext);
+      $payment->create($this->apiContext);
+
       return redirect()->away($payment->getApprovalLink());
-    } catch (\PayPal\Exception\PayPalConnectionException $ex) {
+    } catch (PayPalConnectionException $ex) {
       // This will print the detailed information on the exception.
       //REALLY HELPFUL FOR DEBUGGING
       echo $ex->getData();
@@ -59,21 +78,33 @@ class PaymentController extends Controller
 
   public function approved(Request $request, Course $course)
   {
-    $apiContext = new \PayPal\Rest\ApiContext(
-      new \PayPal\Auth\OAuthTokenCredential(
-        config('services.paypal.client_id'),     // ClientID
-        config('services.paypal.client_secret')      // ClientSecret
-      )
-    );
 
     $paymentId = $_GET['paymentId'];
-    $payment = \PayPal\Api\Payment::get($paymentId, $apiContext);
-    $execution = new \PayPal\Api\PaymentExecution();
+
+
+    try {
+      $payment = Payment::get($paymentId, $this->apiContext);
+    } catch (Exception $ex) {
+
+      dd($ex);
+      return redirect()->route('payment.checkout', $course)->with('failed', 'Su pago no se concreto, por favor, vuelva a intentarlo');
+    }
+
+
+    $execution = new PaymentExecution();
     $execution->setPayerId($_GET['PayerID']);
 
-    $payment->execute($execution, $apiContext);
+    try {
+      $result = $payment->execute($execution, $this->apiContext);
+    } catch (Exception $ex) {
+      return redirect()->route('payment.checkout', $course)->with('failed', 'Su pago no se concreto, por favor, vuelva a intentarlo');
+    }
 
-    $course->students()->attach(auth()->user()->id);
-    return redirect()->route('courses.status', $course);
+    if ($result->getState() === 'approved') {
+      $course->students()->attach(auth()->user()->id);
+      return redirect()->route('courses.status', $course)->with('approved', 'Gracias por su compra, el curso queda habilitado.');
+    } else {
+      return redirect()->route('payment.checkout', $course)->with('failed', 'Su pago no se concreto, por favor, vuelva a intentarlo');
+    }
   }
 }

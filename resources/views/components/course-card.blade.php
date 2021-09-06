@@ -1,11 +1,16 @@
 @props(['course'])
 
-
 <article class="card flex flex-col">
+  
   <img class="h-36 w-full object-cover" src="{{ Storage::url($course->image->url) }}">
 
   <div class="card-body flex-1 flex flex-col">
-    <h1 class="card-title">{{Str::limit($course->title,40)}}</h1>
+    <h1 class="card-title">
+      @can('enrolled', $course )
+        <i class="fas fa-check-circle text-green-600 -ml-5"></i>
+      @endcan
+      {{Str::limit($course->title,38)}}
+    </h1>
     <p class="text-gray-500 text-sm mb-2 mt-auto">Prof: {{$course->teacher->name}}</p>
 
     <div class="flex">

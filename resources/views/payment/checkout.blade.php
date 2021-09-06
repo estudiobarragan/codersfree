@@ -1,9 +1,6 @@
 <x-app-layout>
-  <script src="https://www.paypal.com/sdk/js?client-id=test"></script>
-  <script
-    src="https://www.paypal.com/sdk/js?client-id=".{{$header}}> 
-    // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
-  </script>
+  {{-- <script src="https://www.paypal.com/sdk/js?client-id=test"></script> --}}
+  <script src= "https://www.paypal.com/sdk/js?client-id={{$header}}"></script>
 
   <script>
     paypal.Buttons({

@@ -7,11 +7,7 @@
         <div class="embed-responsive">
           {!!$current->iframe!!}
         </div>
-
-        <h1 class="text-3xl text-gray-600 font-bold mt-4">
-          {{$current->name}}
-        </h1>
-
+        
         @if(session('approved'))
           <div class="card mx-auto mt-8 text-center">
             <div class="card-body  bg-green-100 w-full">
@@ -21,6 +17,11 @@
             </div>
           </div>
         @endif
+
+        <h1 class="text-3xl text-gray-600 font-bold mt-4">
+          {{$current->name}}
+        </h1>
+
 
         @if($current->description)
           <div class="text-gray-600">

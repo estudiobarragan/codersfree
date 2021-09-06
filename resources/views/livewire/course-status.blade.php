@@ -11,6 +11,17 @@
         <h1 class="text-3xl text-gray-600 font-bold mt-4">
           {{$current->name}}
         </h1>
+
+        @if(session('approved'))
+          <div class="card mx-auto mt-8 text-center">
+            <div class="card-body  bg-green-100 w-full">
+              <div class="alert alert-success bg-green-600 text-white" role="alert">
+                <strong><i class="far fa-smile"></i> Felicitaciones!</strong> {{ session('approved') }}
+              </div>
+            </div>
+          </div>
+        @endif
+
         @if($current->description)
           <div class="text-gray-600">
             {{$current->description->name}}

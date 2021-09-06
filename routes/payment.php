@@ -7,4 +7,6 @@ Route::get('{course}/checkout', [PaymentController::class, 'checkout'])->name('c
 
 Route::get('{course}/pay', [PaymentController::class, 'pay'])->name('pay');
 
-Route::get('{course}/approved', [PaymentController::class, 'approved'])->name('approved');
+Route::get('approved/{courseId}', [PaymentController::class, 'approved'])->name('approved');
+
+Route::get('failed/{courseId}', [PaymentController::class, 'failed'])->name('failed');

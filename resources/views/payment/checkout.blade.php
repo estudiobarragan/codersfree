@@ -22,22 +22,24 @@
         return actions.order.capture().then(function(details) {
           // This function shows a transaction success message to your buyer.
           alert('Transaction completed by ' + details.payer.name.given_name);
+          var id = {{$course->id}};
+          window.location.href = "/payment/approved/"+id;
         });
       },
       onCancel: function (data) {
-        
-        alert('Transaccion cancelada por el usuraio');
+        var id = {{$course->id}};
+        window.location.href = "/payment/failed/"+id;
         return data;
-      },
+      }/* ,
       onError: function (err) {
         // For example, redirect to a specific error page
-        window.location.href = "/your-error-page-here";
-      }
+        window.location.href = "/payment/failed";
+      } */
     }).render('#paypal-button-container');
     //This function displays Smart Payment Buttons on your web page.
   </script>
 
-  @isset($fallo)
+  @if(session('failed'))
     <div class="card max-w-4xl mx-auto mt-8 text-center">
       <div class="card-body  bg-red-100 w-full">
         <div class="alert alert-danger bg-red-600 text-white"  role="alert">
@@ -45,7 +47,7 @@
         </div>
       </div>
     </div>
-  @endisset
+  @endif
 
   <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 py-12">
     <h1 class="text-gray-500 text-3xl font-bold">Detalle del pedido</h1>

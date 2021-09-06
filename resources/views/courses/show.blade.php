@@ -18,15 +18,7 @@
 
     </div>
   </section>
-  @if(session('approved'))
-    <div class="card mx-auto mt-8 text-center">
-      <div class="card-body  bg-green-100 w-full">
-        <div class="alert alert-success bg-green-600 text-white" role="alert">
-          <strong><i class="far fa-smile"></i> Felicitaciones!</strong> {{ session('approved') }}
-        </div>
-      </div>
-    </div>
-  @endif
+  
   {{-- Descripci{on del curso} --}}
   <section class="card mb-6 shadow-xl">
     <div class="card-body">

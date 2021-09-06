@@ -16,18 +16,20 @@ class PaymentController extends Controller
   public function checkout(Course $course)
   {
     $header = config('paypal.paypal.client_id');
+
     return view('payment.checkout', compact('course', 'header'));
   }
-  public function pay(Course $course)
+  public function failed($courseId)
   {
+    $course = Course::find($courseId);
+
+    return redirect()->route('payment.checkout', $course)->with('failed', 'Su pago no se concreto, por favor, vuelva a intentarlo');
   }
 
-  public function approved(Request $request, Course $course)
+  public function approved($courseId)
   {
-
-    //  return redirect()->route('payment.checkout', $course)->with('failed', 'Su pago no se concreto, por favor, vuelva a intentarlo');
-
-    //  return redirect()->route('courses.status', $course)->with('approved', 'Gracias por su compra, el curso queda habilitado.');
-
+    $course = Course::find($courseId);
+    $course->students()->attach(auth()->user()->id);
+    return redirect()->route('courses.status', $course)->with('approved', 'Gracias por su compra, el curso queda habilitado.');
   }
 }

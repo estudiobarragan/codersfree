@@ -1,7 +1,7 @@
 @props(['course'])
 
 <article class="card flex flex-col">
-  
+  <h1 class="text-center bg-gray-300 text-gray-900 font-bold">{{$course->category->name}}</h1>
   <img class="h-36 w-full object-cover" src="{{ Storage::url($course->image->url) }}">
 
   <div class="card-body flex-1 flex flex-col">

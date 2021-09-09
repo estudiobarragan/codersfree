@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TestController;
 use App\Http\Livewire\CourseStatus;
 use Illuminate\Support\Facades\Route;
 
@@ -30,3 +31,5 @@ Route::post('courses/{course}/enrolled', [CourseController::class, 'enrolled'])
   ->middleware('auth')->name('courses.enrolled');
 
 Route::get('course-status/{course}', CourseStatus::class)->name('courses.status')->middleware('auth');
+
+Route::get('tests', [TestController::class, 'index'])->name('tests.index')->middleware('auth');

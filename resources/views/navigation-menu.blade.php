@@ -9,7 +9,12 @@
       'name' => 'Cursos',
       'route'=> route('courses.index'),
       'active' => request()->routeIs('courses.*'),
-    ]    
+    ],
+    [
+      'name' => 'Pruebas',
+      'route'=> route('tests.index'),
+      'active' => request()->routeIs('tests.*'),
+    ]
   ];
 @endphp
 

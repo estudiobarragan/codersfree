@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
+
 {
+  public $estados, $estado;
+
   public function index()
   {
-    $usuario = User::find(2);
-    $courses = Course::has('students')
-      ->with('students')
-      ->select('id', 'title')
+
+    $usuario = auth()->user();
+    $courses = Course::select('id', 'title')
       ->get();
 
+    $estados = ['propios', 'no propios', 'todos'];
+    $estado = 1;
 
-    /* $courses = $courses->students->contains($user); */
-
-    return view('tests.show', compact('courses', 'usuario'));
+    return view('tests.show', compact('courses', 'usuario', 'estado'));
   }
 }

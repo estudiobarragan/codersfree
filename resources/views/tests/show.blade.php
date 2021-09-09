@@ -2,7 +2,12 @@
 
   <div class="card">
     <div class="card-body">
-      <h1>Listado de cursos</h1>
+      <h1>Listado de cursos
+        @if($estado==3) completos @endif
+        @if($estado==1) matriculado por {{$usuario->name}} @endif
+        @if($estado==2) no matriculado por {{$usuario->name}} @endif        
+
+      </h1>
       
       <table>
         <thead>
@@ -12,8 +17,7 @@
         </thead>
         @foreach ($courses as $course)
 
-          @if(!$course->students->contains($usuario))
-            
+          @if($estado==3 || ($estado==2 && !$course->students->contains($usuario)) || ($estado==1 && $course->students->contains($usuario)))
           
           <tr>
 

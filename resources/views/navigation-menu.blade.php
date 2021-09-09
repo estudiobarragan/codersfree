@@ -4,16 +4,19 @@
       'name' => 'Home',
       'route'=> route('home'),
       'active' => request()->routeIs('home'),
+      'gate' => null,
     ],
     [
       'name' => 'Cursos',
       'route'=> route('courses.index'),
       'active' => request()->routeIs('courses.*'),
+      'gate' => null,
     ],
     [
       'name' => 'Pruebas',
       'route'=> route('tests.index'),
       'active' => request()->routeIs('tests.*'),
+      'gate' => 'Ver dashboard',
     ]
   ];
 @endphp
@@ -34,9 +37,25 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
                   @foreach ($nav_links as $nav_link)
-                    <x-jet-nav-link href="{{ $nav_link['route'] }}" :active="$nav_link['active']">
-                        {{ $nav_link['name'] }}
-                    </x-jet-nav-link>                      
+
+                    @if(!is_null( $nav_link['gate'] ))
+
+                      @can($nav_link['gate'])
+
+                        <x-jet-nav-link href="{{ $nav_link['route'] }}" :active="$nav_link['active']">
+                            {{ $nav_link['name'] }}
+                        </x-jet-nav-link>
+
+                      @endcan
+                      
+                    @else
+
+                      <x-jet-nav-link href="{{ $nav_link['route'] }}" :active="$nav_link['active']">
+                          {{ $nav_link['name'] }}
+                      </x-jet-nav-link>
+
+                    @endif
+                    
                   @endforeach
 
                 </div>
